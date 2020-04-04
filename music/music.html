@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="music.js"></script>
+
+</head>
+
+<body>
+    <audio controls src="music/05.mp3"></audio>
+    <div class="box">
+        <div class="poster">
+            <img src="music/timg00.jpg" alt="">
+        </div>
+        <input type="range" value="0" min="0" step="0.01" max="100" class="range">
+        <div class="bar">
+            <div class="bg"></div>
+            <div class="point"></div>
+        </div>
+        <span class="begin">00:00</span>
+        <span class="end">00:00</span>
+        <ul class="name">
+            <li class="song">你不是真正的快乐</li>
+            <li class="person">邓紫棋</li>
+        </ul>
+        <ul class="volume-box">
+            <li class="horn"><img src="01.png" alt=""></li>
+            <li class="volume-bar hide">
+                <div class="volumebg"></div>
+                <div class="volumecr"></div>
+            </li>
+        </ul>
+        <ul class="control">
+            <li class="previous">
+                <!-- <img src="music/paly.png" alt=""> -->
+                 </li>
+            <li class="paly"></li>
+            <li class="next">  </li>
+        </ul>
+        <!-- 列表 -->
+        <div class="nva">
+            <img src="03.png" alt="">
+            <ul class="nvas">
+                <!-- <li><span>你不是真正的快乐</span><span>邓紫棋</span></li>
+                <li><span>信</span><span>Dchiche</span></li> -->
+
+            </ul>
+        </div>
+
+
+
+    </div>
+
+
+
+    <script>
+        var audio = document.querySelector("audio")
+        var paly = document.querySelector(".paly")
+        var range = document.querySelector('.range')
+        var begin = document.querySelector('.begin')
+        var end = document.querySelector('.end')
+        var next = document.querySelector('.next')
+        var previous = document.querySelector('.previous')
+        var song = document.querySelector('.song')
+        var person = document.querySelector('.person')
+        var poster = document.querySelector('.poster')
+        var point = document.querySelector('.point')
+        var img = document.querySelector('.poster img')
+        var bar = document.querySelector('.bar')
+        var bg = document.querySelector('.bg')
+        var horn = document.querySelector('.horn')
+        var volumebg = document.querySelector('.volumebg')
+        var volumecr = document.querySelector('.volumecr')
+        var volumeBar = document.querySelector('.volume-bar')
+        var volumeBox = document.querySelector('.volume-box')
+        var nvas = document.querySelector('.nvas')
+        var nva = document.querySelector('.nva')
+
+
+
+
+
+
+
+
+        // 点击自定义进度条
+        var sv = function () {
+            bar.onclick = function (event) {
+                console.log('00')
+                if (audio.paused) {
+                    audio.play()
+                }
+                // console.log(event)
+                var x = ((event.offsetX) / (bar.offsetWidth)) * 100
+                // console.log(bar.offsetWidth)
+                // console.log(event.offsetX)
+                // 优化进度条0.2
+                audio.currentTime = (x * audio.duration) / 100
+            }
+        }
+        sv()
+
+
+
+
+        // 列表
+        music.forEach(function (element, index) {
+            // console.log(element, index)
+            var node = document.createElement("li")
+            var span = document.createElement("span")
+
+            node.innerText = element.name;
+            span.innerText = element.songer;
+
+            nvas.appendChild(node);
+            node.appendChild(span);
+
+            // 点击列表
+            var nodemusic = function () {
+                // console.log(node)
+                node.onclick = function () {
+                    // console.log(element.picUlr)
+                    audio.src = element.picUlr
+                    song.innerText = element.name
+                    person.innerText = element.songer
+                    // console.log(element.id)
+                    img.src = "music/timg0" + [element.id] + ".jpg"
+                    audio.play()
+                }
+            }
+            nodemusic()
+
+        });
+
+        // nva.onclick = function () {
+        //     nvas.classList.remove('nvashide');
+        //     nvas.classList.add('nvasshow');
+        // }
+
+        nva.onclick = function () {
+            if (nvas.style.display == "block") {
+                nvas.style.display = "none";
+                // console.log('000')
+            } else {
+                nvas.style.display = "block";
+                // console.log('111')
+
+            }
+        }
+        function contUlr(id) {
+            return "music/" + id + ".mp3"
+        }
+        console.log(contUlr(music[0].picUlr))
+
+
+
+
+        // 第一首歌
+        audio.src = music[5].picUlr
+        // function changesong(obj) {
+        //     // audio.src = countUrl(obj.id);
+        //     console.log(obj)
+        // }
+
+        var curr = 0
+        audio.src = music[curr].picUlr
+        song.innerText = music[curr].name
+        person.innerText = music[curr].songer
+
+
+
+
+        // 播放下一首
+        var aotunext = function () {
+            curr++;
+            if (curr > music.length - 1) {
+                curr = 0
+                console.log(curr)
+                audio.src = music[curr].picUlr
+                song.innerText = music[curr].name
+                person.innerText = music[curr].songer
+                if (audio.paused) {
+                    audio.play()
+                }
+                img.src = "music/timg0" + [curr + 1] + ".jpg"
+
+            } else {
+                console.log(curr)
+                audio.src = music[curr].picUlr
+                song.innerText = music[curr].name
+                person.innerText = music[curr].songer
+                if (audio.paused) {
+                    audio.play()
+                }
+                img.src = "music/timg0" + [curr + 1] + ".jpg"
+
+            }
+
+        }
+        // 上一首
+
+        var aotuper = function () {
+            curr--;
+
+            if (curr < 0) {
+                curr = music.length - 1
+                audio.src = music[curr].picUlr
+                song.innerText = music[curr].name
+                person.innerText = music[curr].songer
+                if (audio.paused) {
+                    audio.play()
+                }
+                img.src = "music/timg0" + [curr + 1] + ".jpg"
+
+            } else {
+                audio.src = music[curr].picUlr
+                song.innerText = music[curr].name
+                person.innerText = music[curr].songer
+                if (audio.paused) {
+                    audio.play()
+                }
+                img.src = "music/timg0" + [curr + 1] + ".jpg"
+
+            }
+        }
+        // 播放完自动播放
+        audio.onended = function () {
+            aotunext()
+        }
+        // 点击播放
+        next.onclick = function () {
+            aotunext()
+        }
+        previous.onclick = function () {
+            aotuper()
+        }
+        //控制播放暂停按键
+        paly.onclick = function () {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+        // 更改播放按键的文字
+        audio.onplay = function () {
+            paly.style.backgroundPositionX= "-633px";
+            paly.style.backgroundPositionY= "-808px";
+        }
+        audio.onpause = function () {
+            paly.style.backgroundPositionX= "-102px";
+            paly.style.backgroundPositionY= "-100px";
+        }
+        audio.ontimeupdate = function () {
+            // 判断总时长是否已将全部加载了
+            if (isNaN(this.duration)) {
+                return
+            } {
+                // 获取总时长   currentTime当前时长
+                // console.log(this.duration)
+                // console.log(this.currentTime/this.duration)
+                range.value = (this.currentTime / this.duration) * 100
+                // begin.innerText = this.currentTime
+                // end.innerText = this.duration
+
+
+                // 优化进度条0.1
+                // console.log(range.value)
+                point.style.left = range.value + "%"
+                bg.style.width = range.value + "%"
+
+
+
+                var m = Math.floor((this.currentTime) / 60)
+                var s = Math.floor((this.currentTime) % 60)
+                var em = Math.floor((this.duration) / 60)
+                var es = Math.floor((this.duration) % 60)
+                // 秒数前面0的判断
+                var second = function () {
+                    if (s < 10) {
+                        s = '0' + s
+
+                    } else {
+                        s = s
+                    }
+                }
+                var minute = function () {
+                    if (es < 10) {
+                        es = '0' + es
+
+                    } else {
+                        es = es
+                    }
+                }
+
+                // 输入时间
+                if (m < 10) {
+                    second()
+                    minute()
+                    begin.innerText = '0' + m + ":" + s
+                    end.innerText = '0' + em + ":" + es
+
+                } else {
+                    second()
+                    minute()
+                    begin.innerText = s
+                    end.innerText = es
+
+                }
+                // input改变时歌曲位置改变
+                range.onchange = function () {
+                    console.log(this.value)
+                    audio.currentTime = (this.value * audio.duration) / 100
+                }
+
+
+            }
+
+            // console.log(audio.currentTime)
+            // audio.currentTime = (this.value * audio.duration) / 100
+
+
+            sv()
+        }
+
+        // 音量调节
+        var volume = audio.volume * 100
+        // console.log(volume)
+
+        var move = function () {
+            var vox = ((event.offsetX) / (volumeBar.offsetWidth)) * 100
+            // console.log(vox)
+            volumebg.style.width = vox + "%"
+            volumecr.style.left = vox + "%"
+            audio.volume = vox / 100
+        }
+        volumeBar.onclick = function (event) {
+            move()
+        }
+
+        // 音量图标变换
+        var hornimg = document.querySelector('.horn img')
+        horn.onclick = function () {
+            if (audio.volume != 0) {
+                audio.volume = 0
+                volumebg.style.width = 0 + "%"
+                volumecr.style.left = 0 + "%"
+                hornimg.src = "02.png"
+
+            } else {
+                audio.volume = 0.5
+                volumebg.style.width = 50 + "%"
+                volumecr.style.left = 50 + "%"
+                hornimg.src = "01.png"
+
+            }
+        }
+
+        horn.onmouseover = function () {
+            volumeBar.classList.remove('hide');
+            volumeBar.classList.add('show');
+
+        }
+        volumeBox.onmouseleave = function () {
+            volumeBar.classList.remove('show');
+            volumeBar.classList.add('hide');
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
