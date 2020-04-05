@@ -23,7 +23,7 @@
             width: 100%;
         }
     </style>
-    <a href="">音乐播放器</a>
+    <a href="https://zhangindex.github.io/music/">音乐播放器</a>
     <div class="music"><img src="img/music.jpg" alt=""></div>
 
 
